@@ -48,4 +48,3 @@ const handleClose = (key: string, keyPath: string[]) => {
   min-height: 400px;
 }
 </style>
-@/store/config
