@@ -14,6 +14,11 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         math: "always",
+        charset: false,
+        additionalData: `@import "${path.resolve(
+          __dirname,
+          "src/styles/glob.less"
+        )}";`,
       },
     },
   },

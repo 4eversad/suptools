@@ -1,8 +1,4 @@
 <template>
-  <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-    <el-radio-button :label="false">expand</el-radio-button>
-    <el-radio-button :label="true">collapse</el-radio-button>
-  </el-radio-group> -->
   <el-menu
     default-active="1"
     class="el-menu-vertical-demo"
@@ -10,6 +6,7 @@
     @open="handleOpen"
     @close="handleClose"
   >
+    <div class="logo">logo</div>
     <el-menu-item index="1">
       <el-icon><setting /></el-icon>
       <template #title>Navigator One</template>
@@ -30,8 +27,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Document, Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { useConfigStore } from "@/store";
+import { Document, Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 
 const $configStore = useConfigStore();
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -43,8 +40,17 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style scoped lang="less">
+.el-menu {
+  background-color: #fffaf1;
+  min-height: 100%;
+}
+.el-menu--collapse {
+  width: 60px;
+}
+.el-menu-vertical-demo {
+  min-height: 100vh;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
 }
 </style>

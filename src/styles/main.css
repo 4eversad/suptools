@@ -1,0 +1,9 @@
+html.dark {
+  /* 自定义深色背景颜色 */
+}
+html.dark .el-page-header {
+  background-color: #242b42;
+}
+html.dark .el-page-header .el-page-header__extra {
+  color: #fff;
+}
