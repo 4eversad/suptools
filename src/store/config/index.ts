@@ -12,6 +12,18 @@ const useConfigStore = defineStore<string, ConfigStateT, any, ConfigActionT>(
     actions: {
       toggleSidebar() {
         this.isCollapse = !this.isCollapse;
+        localStorage.setItem("isCollapse", JSON.stringify(this.isCollapse));
+      },
+      initState() {
+        const localStorageCollapse = JSON.parse(
+          localStorage.getItem("isCollapse")
+        );
+        if (localStorageCollapse) {
+          this.isCollapse = localStorageCollapse;
+        } else {
+          this.isCollapse = false;
+          localStorage.setItem("isCollapse", JSON.stringify(this.isCollapse));
+        }
       },
     },
   }

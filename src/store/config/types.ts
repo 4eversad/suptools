@@ -1,6 +1,7 @@
 export type ConfigStateT = {
-  isCollapse: boolean;
+  isCollapse: boolean | string;
 };
 export type ConfigActionT = {
   toggleSidebar: () => void;
+  initState: () => void;
 };
