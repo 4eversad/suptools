@@ -3,22 +3,34 @@
     <el-menu
       default-active="1"
       class="el-menu-vertical-demo"
-      :collapse="JSON.parse(isCollapse as string)"
+      :collapse="isCollapse"
       @open="handleOpen"
       @close="handleClose"
+      style="--el-menu-hover-bg-color: #e5e5e5"
     >
       <div class="logo">logo</div>
-      <el-menu-item v-for="item in cates" :index="item.id" :key="item.id">
-        <i class="menu-icon iconfont" :class="item.icon"></i>
-        <template #title>{{ item.cateName }}</template>
-      </el-menu-item>
+      <template v-for="item in cates" :index="item.id" :key="item.id">
+        <el-sub-menu v-if="item.subCate" :index="item.id">
+          <template #title>
+            <i class="menu-icon iconfont" :class="item.icon"></i>
+
+            {{ item.cateName }}
+          </template>
+          <el-menu-item v-for="subItem in item.subCate">{{
+            subItem.cateName
+          }}</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item v-else>
+          <i class="menu-icon iconfont" :class="item.icon"></i>
+          <template #title>{{ item.cateName }}</template>
+        </el-menu-item>
+      </template>
     </el-menu>
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
 import { useConfigStore } from "@/store";
-import { Document, Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { storeToRefs } from "pinia";
 import { cates } from "@/views/category/cates.ts";
 
@@ -45,6 +57,7 @@ defineOptions({
 .el-menu--collapse {
   width: 60px;
 }
+
 .el-menu-vertical-demo {
   height: 100%;
 }

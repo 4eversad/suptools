@@ -67,6 +67,7 @@ defineOptions({
 </script>
 <style lang="less">
 .nav-bar {
+  // color: #fff;
   background-color: transparent;
   position: sticky;
   transition: all 0.2s linear;

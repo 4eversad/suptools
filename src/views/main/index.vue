@@ -4,8 +4,8 @@
       <div class="container">
         <navbar :scroll-top="scrollTop"></navbar>
         <search></search>
-        <template v-for="(item, i) in cates">
-          <cate :cateName="item.cateName"></cate>
+        <template v-for="item in cates">
+          <cate :cate="item"></cate>
         </template>
       </div>
     </div>

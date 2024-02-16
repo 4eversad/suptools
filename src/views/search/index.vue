@@ -28,14 +28,15 @@ defineOptions({
 <style scoped lang="less">
 .page-search {
   margin-top: -(@nav-height);
-  height: 400px;
-  background-color: rgba(241, 182, 173, 0.852);
+  height: 340px;
   width: 100%;
   overflow: hidden;
+  background: url("@/assets/bg/whiteSea.jpg") no-repeat center/cover;
+  background-position-y: -340px;
   .search-area {
     width: 400px;
     height: 40px;
-    margin: 150px auto;
+    margin: 130px auto;
     position: relative;
     .search-input {
       display: block;
@@ -47,7 +48,7 @@ defineOptions({
       height: 40px;
       border: 1px solid #ccc;
       border-radius: 40px;
-      background-color: lemonchiffon;
+      background-color: rgba(255, 255, 255, 0.6);
     }
     .search-icon {
       position: absolute;
