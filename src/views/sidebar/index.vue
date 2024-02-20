@@ -7,20 +7,26 @@
       @open="handleOpen"
       @close="handleClose"
       style="--el-menu-hover-bg-color: #e5e5e5"
+      unique-opened
     >
       <div class="logo">logo</div>
-      <template v-for="item in cates" :index="item.id" :key="item.id">
-        <el-sub-menu v-if="item.subCate" :index="item.id">
+      <template v-for="(item, index) in cates" :index="item.id" :key="item.id">
+        <el-sub-menu
+          @click="scrollToCate(index)"
+          v-if="item.subCate"
+          :index="item.id"
+        >
           <template #title>
             <i class="menu-icon iconfont" :class="item.icon"></i>
-
-            {{ item.cateName }}
+            <span>
+              {{ item.cateName }}
+            </span>
           </template>
           <el-menu-item v-for="subItem in item.subCate">{{
             subItem.cateName
           }}</el-menu-item>
         </el-sub-menu>
-        <el-menu-item v-else>
+        <el-menu-item v-else @click="scrollToCate(index)">
           <i class="menu-icon iconfont" :class="item.icon"></i>
           <template #title>{{ item.cateName }}</template>
         </el-menu-item>
@@ -34,6 +40,9 @@ import { useConfigStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { cates } from "@/views/category/cates.ts";
 
+const emits = defineEmits<{
+  (e: "handle-menu-change", currentIndex: number): void;
+}>();
 const $configStore = useConfigStore();
 const { isCollapse } = storeToRefs($configStore);
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -42,7 +51,14 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
-
+const scrollToCate = (index: number) => {
+  // emits("handle-menu-change", index);
+  const scrollTopOffset =
+    document.getElementsByClassName("cate-name")[index].offsetTop - 75;
+  document
+    .getElementsByClassName("el-scrollbar__wrap")[1]
+    .scrollTo({ top: scrollTopOffset, behavior: "smooth" });
+};
 defineOptions({
   name: "PageSidebar",
 });

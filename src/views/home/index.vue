@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import sidebar from "@/views/sidebar/index.vue";
 import pageMain from "@/views/main/index.vue";
 import help from "@/views/help/index.vue";
@@ -30,7 +30,7 @@ defineOptions({
 <style scoped lang="less">
 .home-page {
   background-color: @light-themeColor;
-  width: calc(100%);
+  width: 100%;
   display: flex;
   height: 100vh;
 }

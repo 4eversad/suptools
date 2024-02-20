@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar @scroll="handleScroll">
+  <el-scrollbar ref="scrollRef" @scroll="handleScroll">
     <div class="page-main">
       <div class="container">
         <navbar :scroll-top="scrollTop"></navbar>
@@ -9,6 +9,7 @@
         </template>
       </div>
     </div>
+    <back-top></back-top>
   </el-scrollbar>
 </template>
 
@@ -18,8 +19,11 @@ import search from "@/views/search/index.vue";
 import { ref } from "vue";
 import { cates } from "@/views/category/cates.ts";
 import cate from "../category/cate.vue";
+import backTop from "@/components/backTop.vue";
 
+const scrollRef = ref();
 const scrollTop = ref(0);
+
 const handleScroll = (e: { scrollLeft: number; scrollTop: number }) => {
   scrollTop.value = e.scrollTop;
 };
