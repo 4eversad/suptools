@@ -8,12 +8,10 @@
       ref="cateTabRef"
       v-if="cate.subCate"
       :cates-list="cate.subCate"
+      :tabId="activeTabId"
       @handle-tab-change="handleTabChange"
     ></cate-tab>
-    <cate-items
-      :active-tab-index="activeTabIndex"
-      :cate-data="(cateData as subCatesListT)"
-    ></cate-items>
+    <cate-items :cate-data="(cateData as subCatesListT)"></cate-items>
   </div>
 </template>
 
@@ -30,13 +28,20 @@ const props = defineProps({
     required: true,
   },
 });
-const activeTabIndex = ref(0);
-let cateData = reactive<never[] | subCatesListT>([]);
-cateData = props.cate.subCate ? props.cate.subCate[0] : [];
+// tab初始默认id
+const activeTabId = ref(props.cate.subCate ? props.cate.subCate[0].id : "");
 
-const handleTabChange = (index: number) => {
-  activeTabIndex.value = index;
-  cateData = props.cate.subCate ? props.cate.subCate[activeTabIndex.value] : [];
+let cateData = reactive<never[] | subCatesListT>([]);
+cateData = props.cate.subCate
+  ? props.cate.subCate.find((i: subCatesListT) => i.id == activeTabId.value)
+  : [];
+
+const handleTabChange = (id: string) => {
+  activeTabId.value = id;
+  cateData = props.cate.subCate
+    ? props.cate.subCate.find((i: any) => i.id === activeTabId.value)
+    : [];
+  console.log(cateData);
 };
 defineOptions({
   name: "Cate",

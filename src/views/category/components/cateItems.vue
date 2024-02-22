@@ -1,29 +1,39 @@
 <template>
   <ul class="sub-cate-list">
-    <li class="sub-cate-item" v-for="item in cateData?.cateContent">
-      <a href="">
-        <div class="logo">
-          <img :src="item.logo ? item.logo : ''" />
-        </div>
-        <div class="sub-cate--right">
-          <div class="sub-cate--title">
-            {{ item.title }}
+    <template v-if="cateData.cateContent">
+      <li class="sub-cate-item" v-for="item in cateData?.cateContent">
+        <a href="">
+          <div class="logo">
+            <img :src="item.logo ? item.logo : ''" />
           </div>
-          <div class="sub-cate--description">
-            {{ item.description }}
-          </div>
-        </div></a
-      >
-    </li>
+          <div class="sub-cate--right">
+            <div class="sub-cate--title">
+              {{ item.title }}
+            </div>
+            <div class="sub-cate--description">
+              {{ item.description }}
+            </div>
+          </div></a
+        >
+      </li>
+    </template>
+    <template v-else> <div class="no-data">暂无资源...</div></template>
   </ul>
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
 import type { subCatesListT } from "../cates";
-defineProps<{
+
+const props = defineProps<{
   cateData: subCatesListT;
 }>();
-
+watch(
+  () => props.cateData,
+  () => {
+    console.log(1231);
+  }
+);
 defineOptions({
   name: "CateName",
 });
@@ -97,5 +107,9 @@ defineOptions({
     transform: translateY(-2%);
     transition: all 0.2s linear;
   }
+}
+.no-data {
+  color: #747474;
+  font-size: 12 px;
 }
 </style>

@@ -4,15 +4,13 @@
       default-active="1"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
       style="--el-menu-hover-bg-color: #e5e5e5"
       unique-opened
     >
       <div class="logo">logo</div>
       <template v-for="(item, index) in cates" :index="item.id" :key="item.id">
         <el-sub-menu
-          @click="scrollToCate(index)"
+          @click.stop="scrollToCate(item.id, index)"
           v-if="item.subCate"
           :index="item.id"
         >
@@ -22,11 +20,14 @@
               {{ item.cateName }}
             </span>
           </template>
-          <el-menu-item v-for="subItem in item.subCate">{{
-            subItem.cateName
-          }}</el-menu-item>
+          <el-menu-item
+            v-for="subItem in item.subCate"
+            :index="subItem.id"
+            @click="handleSubItemClick(subItem.id!)"
+            >{{ subItem.cateName }}</el-menu-item
+          >
         </el-sub-menu>
-        <el-menu-item v-else @click="scrollToCate(index)">
+        <el-menu-item v-else @click="scrollToCate(item.id, index)">
           <i class="menu-icon iconfont" :class="item.icon"></i>
           <template #title>{{ item.cateName }}</template>
         </el-menu-item>
@@ -41,23 +42,24 @@ import { storeToRefs } from "pinia";
 import { cates } from "@/views/category/cates.ts";
 
 const emits = defineEmits<{
-  (e: "handle-menu-change", currentIndex: number): void;
+  (e: "handle-menu-change" | "handle-subItem-click", clickID: string): void;
 }>();
 const $configStore = useConfigStore();
 const { isCollapse } = storeToRefs($configStore);
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const scrollToCate = (index: number) => {
-  // emits("handle-menu-change", index);
+
+/** 点击菜单,页面滚动 */
+const scrollToCate = (id: string, index: number) => {
+  emits("handle-menu-change", id);
   const scrollTopOffset =
-    document.getElementsByClassName("cate-name")[index].offsetTop - 75;
+    (document.getElementsByClassName("cate-name")[index] as any).offsetTop - 80;
   document
     .getElementsByClassName("el-scrollbar__wrap")[1]
     .scrollTo({ top: scrollTopOffset, behavior: "smooth" });
+};
+
+/**处理子菜单的点击,点击时tabbar也对应选中 */
+const handleSubItemClick = (id: string) => {
+  emits("handle-subItem-click", id);
 };
 defineOptions({
   name: "PageSidebar",

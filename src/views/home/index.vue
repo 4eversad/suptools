@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <div class="home-page--left">
-      <sidebar></sidebar>
+      <sidebar @handle-subItem-click="handleSubItemClick"></sidebar>
       <help></help>
     </div>
     <div class="home-page--right">
@@ -18,6 +18,8 @@ import help from "@/views/help/index.vue";
 import { useConfigStore } from "@/store";
 
 const $useConfigStore = useConfigStore();
+const currentId = "";
+const handleSubItemClick = (id: string) => {};
 
 onMounted(() => {
   $useConfigStore.initState();

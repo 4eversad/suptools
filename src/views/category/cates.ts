@@ -133,19 +133,19 @@ export const cates: catesT[] = [
     icon: "icon-ziyuansousuo3",
     id: "4",
   },
-  // {
-  //   cateName: "实用工具",
-  //   icon: "icon-gongju",
-  //   id: "5",
-  // },
-  // {
-  //   cateName: "软件应用",
-  //   icon: "icon-yingyong4",
-  //   id: "6",
-  // },
-  // {
-  //   cateName: "设计素材",
-  //   icon: "icon-sucai3",
-  //   id: "7",
-  // },
+  {
+    cateName: "实用工具",
+    icon: "icon-gongju",
+    id: "5",
+  },
+  {
+    cateName: "软件应用",
+    icon: "icon-yingyong4",
+    id: "6",
+  },
+  {
+    cateName: "设计素材",
+    icon: "icon-sucai3",
+    id: "7",
+  },
 ];

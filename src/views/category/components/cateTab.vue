@@ -3,9 +3,9 @@
     <ul class="cate-list">
       <li
         class="cate-item"
-        :class="{ active: i === activeTab }"
-        v-for="(item, i) in catesList"
-        @click="changeTab(i)"
+        :class="{ active: item.id === tabId }"
+        v-for="item in catesList"
+        @click="changeTab(item.id!)"
       >
         {{ item.cateName }}
       </li>
@@ -15,16 +15,13 @@
 
 <script setup lang="ts">
 import type { subCatesListT } from "../cates";
-import { ref } from "vue";
 
-defineProps<{ catesList: subCatesListT[] }>();
+defineProps<{ catesList: subCatesListT[]; tabId: string }>();
 const emits = defineEmits<{
-  (e: "handleTabChange", currentIndex: number): void;
+  (e: "handleTabChange", currentId: string): void;
 }>();
-const activeTab = ref(0);
-const changeTab = (index: number) => {
-  activeTab.value = index;
-  emits("handleTabChange", index);
+const changeTab = (id: string) => {
+  emits("handleTabChange", id);
 };
 defineOptions({
   name: "CateTab",
