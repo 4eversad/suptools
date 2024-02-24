@@ -3,7 +3,7 @@
     <ul class="cate-list">
       <li
         class="cate-item"
-        :class="{ active: item.id === tabId }"
+        :class="{ active: item.id === catesMapper[parentId] }"
         v-for="item in catesList"
         @click="changeTab(item.id!)"
       >
@@ -14,14 +14,21 @@
 </template>
 
 <script setup lang="ts">
-import type { subCatesListT } from "../cates";
+import type { subCatesListT } from "@/constant/cates";
+import { useCategoryHook } from "@/utils/useCategoryHooks";
 
-defineProps<{ catesList: subCatesListT[]; tabId: string }>();
+const props = defineProps<{
+  catesList: subCatesListT[];
+  parentId: string;
+}>();
+const { catesMapper } = useCategoryHook(props.parentId);
+
 const emits = defineEmits<{
-  (e: "handleTabChange", currentId: string): void;
+  (e: "handleTabChange"): void;
 }>();
 const changeTab = (id: string) => {
-  emits("handleTabChange", id);
+  const { changeSubItemId } = useCategoryHook(props.parentId);
+  changeSubItemId(id);
 };
 defineOptions({
   name: "CateTab",

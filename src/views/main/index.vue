@@ -5,7 +5,9 @@
         <navbar :scroll-top="scrollTop"></navbar>
         <search></search>
         <template v-for="item in cates">
-          <cate :cate="item"></cate>
+          <suspense>
+            <cate :cate="item"></cate>
+          </suspense>
         </template>
       </div>
     </div>
@@ -14,16 +16,17 @@
 </template>
 
 <script setup lang="ts">
+import { defineAsyncComponent } from "vue";
+const cate = defineAsyncComponent(() => import("../category/cate.vue"));
 import navbar from "@/views/navbar/index.vue";
 import search from "@/views/search/index.vue";
 import { ref } from "vue";
-import { cates } from "@/views/category/cates.ts";
-import cate from "../category/cate.vue";
+import { cates } from "@/constant/cates";
+// import cate from "../category/cate.vue";
 import backTop from "@/components/backTop.vue";
 
 const scrollRef = ref();
 const scrollTop = ref(0);
-
 const handleScroll = (e: { scrollLeft: number; scrollTop: number }) => {
   scrollTop.value = e.scrollTop;
 };
@@ -46,3 +49,4 @@ defineOptions({
   height: 2500px;
 }
 </style>
+@/constant/cates

@@ -11,15 +11,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import sidebar from "@/views/sidebar/index.vue";
 import pageMain from "@/views/main/index.vue";
 import help from "@/views/help/index.vue";
 import { useConfigStore } from "@/store";
+import { useCategoryStore } from "@/store";
 
+const $categoryStore = useCategoryStore();
 const $useConfigStore = useConfigStore();
-const currentId = "";
-const handleSubItemClick = (id: string) => {};
+
+const handleSubItemClick = (parentId: string, id: string) => {
+  console.log(id);
+
+  $categoryStore.changeCateId(parentId, id);
+  console.log(66666666666666);
+
+  console.log($categoryStore.catesId);
+};
 
 onMounted(() => {
   $useConfigStore.initState();

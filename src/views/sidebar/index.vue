@@ -23,7 +23,7 @@
           <el-menu-item
             v-for="subItem in item.subCate"
             :index="subItem.id"
-            @click="handleSubItemClick(subItem.id!)"
+            @click="handleSubItemClick(item.id, subItem.id!)"
             >{{ subItem.cateName }}</el-menu-item
           >
         </el-sub-menu>
@@ -39,10 +39,12 @@
 <script lang="ts" setup>
 import { useConfigStore } from "@/store";
 import { storeToRefs } from "pinia";
-import { cates } from "@/views/category/cates.ts";
+import { cates } from "@/constant/cates";
+import { useCategoryHook } from "@/utils/useCategoryHooks";
 
 const emits = defineEmits<{
-  (e: "handle-menu-change" | "handle-subItem-click", clickID: string): void;
+  (e: "handle-menu-change", clickID: string): void;
+  (e: "handle-subItem-click", parentI: string, subItemId: string): void;
 }>();
 const $configStore = useConfigStore();
 const { isCollapse } = storeToRefs($configStore);
@@ -58,8 +60,9 @@ const scrollToCate = (id: string, index: number) => {
 };
 
 /**处理子菜单的点击,点击时tabbar也对应选中 */
-const handleSubItemClick = (id: string) => {
-  emits("handle-subItem-click", id);
+const handleSubItemClick = (parentId: string, id: string) => {
+  const { changeSubItemId } = useCategoryHook(parentId);
+  changeSubItemId(id);
 };
 defineOptions({
   name: "PageSidebar",

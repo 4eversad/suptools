@@ -1,7 +1,7 @@
 <template>
   <ul class="sub-cate-list">
-    <template v-if="cateData.cateContent">
-      <li class="sub-cate-item" v-for="item in cateData?.cateContent">
+    <template v-if="subItemData.cateContent">
+      <li class="sub-cate-item" v-for="item in subItemData?.cateContent">
         <a href="">
           <div class="logo">
             <img :src="item.logo ? item.logo : ''" />
@@ -22,18 +22,30 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
-import type { subCatesListT } from "../cates";
+import { ref, watch } from "vue";
+import type { subCatesListT } from "@/constant/cates";
+import { useCategoryHook } from "@/utils/useCategoryHooks";
+// const $categoryStore = useCategoryStore();
 
 const props = defineProps<{
   cateData: subCatesListT;
+  parentId: string;
 }>();
+const { getSubcateList, catesMapper } = useCategoryHook(props.parentId);
+
+const subItemData = ref();
+subItemData.value = (await getSubcateList()) || [];
+
 watch(
-  () => props.cateData,
+  () => catesMapper.value,
   () => {
-    console.log(1231);
+    handleSubItemChange();
   }
 );
+
+async function handleSubItemChange() {
+  subItemData.value = (await getSubcateList()) || [];
+}
 defineOptions({
   name: "CateName",
 });

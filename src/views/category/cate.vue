@@ -7,42 +7,43 @@
     <cate-tab
       ref="cateTabRef"
       v-if="cate.subCate"
+      :parent-id="cate.id"
       :cates-list="cate.subCate"
-      :tabId="activeTabId"
       @handle-tab-change="handleTabChange"
     ></cate-tab>
-    <cate-items :cate-data="(cateData as subCatesListT)"></cate-items>
+    <cate-items
+      :cate-data="(cateData as subCatesListT)"
+      :parent-id="cate.id"
+    ></cate-items>
   </div>
 </template>
 
 <script setup lang="ts">
 import cateTab from "./components/cateTab.vue";
 import cateItems from "./components/cateItems.vue";
-import { ref, reactive } from "vue";
-import type { subCatesListT } from "./cates";
+import { ref } from "vue";
+import type { subCatesListT } from "@/constant/cates";
+import { useCategoryHook } from "@/utils/useCategoryHooks";
 
 const props = defineProps({
   cate: {
     type: Object,
-    default: "",
+    default: {},
     required: true,
   },
 });
+
+const { getSubcateList } = useCategoryHook(props.cate.id);
+
 // tab初始默认id
-const activeTabId = ref(props.cate.subCate ? props.cate.subCate[0].id : "");
+let cateData = ref<never[] | subCatesListT>([]);
+cateData.value = (await getSubcateList()) ?? [];
 
-let cateData = reactive<never[] | subCatesListT>([]);
-cateData = props.cate.subCate
-  ? props.cate.subCate.find((i: subCatesListT) => i.id == activeTabId.value)
-  : [];
+async function handleTabChange() {
+  cateData.value = (await getSubcateList()) || [];
+  console.log(cateData.value);
+}
 
-const handleTabChange = (id: string) => {
-  activeTabId.value = id;
-  cateData = props.cate.subCate
-    ? props.cate.subCate.find((i: any) => i.id === activeTabId.value)
-    : [];
-  console.log(cateData);
-};
 defineOptions({
   name: "Cate",
 });
